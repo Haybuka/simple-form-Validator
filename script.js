@@ -25,26 +25,49 @@ function isValidEmail(email){
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
 }
-//Event Listeners
+
+//check required fields
+function checkRequired(input){
+  input.forEach(element => {
+      if(element.value.trim() == ''){
+          showError(element,`${getFieldName(element)} is required`)
+      }else{
+          showSuccess(element)
+      }
+  });
+}
+//Get fieldname and cap
+function getFieldName(input){
+    return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+}
+//Event listeners refactored
 form.addEventListener('click',function (e) {
     e.preventDefault();
-    if(username.value === ''){
-        showError(username, 'Username is required')
-    }else{
-        showSuccess(username)
-    }
+    // instead of passing input one after the other,pass in an Array,
+    // to automate the task at once
+    checkRequired([username,email,password,password2])
+})
 
-    if(email.value === ''){
-        showError(email, 'Email is required')
-    }else if (!isValidEmail(email.value)){
-        showError(email, 'Email is not valid');
-    }
-    else{
-        showSuccess(email)
-    }
-    if(password.value === ''){
-        showError(password, 'Password is required')
-    }else{
-        showSuccess(password)
-    }
-});
+//Event Listeners using if else,not advisable
+// form.addEventListener('click',function (e) {
+//     e.preventDefault();
+//     if(username.value === ''){
+//         showError(username, 'Username is required')
+//     }else{
+//         showSuccess(username)
+//     }
+
+//     if(email.value === ''){
+//         showError(email, 'Email is required')
+//     }else if (!isValidEmail(email.value)){
+//         showError(email, 'Email is not valid');
+//     }
+//     else{
+//         showSuccess(email)
+//     }
+//     if(password.value === ''){
+//         showError(password, 'Password is required')
+//     }else{
+//         showSuccess(password)
+//     }
+// });
